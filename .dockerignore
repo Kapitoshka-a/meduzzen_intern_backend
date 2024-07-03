@@ -1,0 +1,10 @@
+.git
+.svn
+
+# Ignore Python cache and compiled files
+__pycache__
+*.pyc
+
+# Ignore local development files and directories
+.venv
+.idea
