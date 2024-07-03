@@ -10,3 +10,4 @@ async def root():
         "detail": "ok",
         "result": "working"
     }
+
