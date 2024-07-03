@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-
 origins = ["http://localhost:3000", "http://localhost", "http://localhost:8000"]
 
 app.add_middleware(
@@ -23,4 +22,8 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"status_code": 200, "detail": "ok", "result": "working"}
+    return {
+        "status_code": 200,
+        "detail": "ok",
+        "result": "working",
+    }
