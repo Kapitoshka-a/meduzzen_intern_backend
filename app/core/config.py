@@ -1,22 +1,28 @@
+import os
 from pydantic_settings import BaseSettings
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Settings(BaseSettings):
-    postgres_host: str
-    postgres_port: int
-    postgres_db: str
-    postgres_user: str
-    postgres_password: str
-    redis_host: str
-    redis_port: int
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    REDIS_HOST: str
+    REDIS_PORT: int
 
     class Config:
-        env_file = ".env"
+        env_file = os.path.expanduser("~/.env")
 
     @property
     def database_url(self) -> str:
-        return (f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}"
-                f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}")
+        return (
+            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        )
 
 
 settings = Settings()
