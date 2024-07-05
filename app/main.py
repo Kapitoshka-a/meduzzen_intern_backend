@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
@@ -23,6 +25,17 @@ app.add_middleware(
 )
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(
+        "redis://localhost", encoding="utf8", decode_responses=True
+    )
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+
 @app.get("/")
 async def root():
     return {
@@ -31,10 +44,3 @@ async def root():
         "result": "working",
     }
 
-
-@app.on_event("startup")
-async def startup():
-    redis = aioredis.from_url(
-        "redis://localhost", encoding="utf8", decode_responses=True
-    )
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
