@@ -1,18 +1,14 @@
 FROM python:3.11.7-slim
 
-WORKDIR /app
+WORKDIR /fastapi_app
 
-COPY pyproject.toml /app
-
-ENV PYTHONPATH=${PYTHONPATH}:${PWD}
+COPY pyproject.toml .
 
 RUN pip install poetry
-
 RUN poetry config virtualenvs.create false
-
 RUN poetry install --no-dev
 
-COPY . /app
+COPY . .
 
 EXPOSE 8000
 
