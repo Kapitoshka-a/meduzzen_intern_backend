@@ -1,17 +1,12 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 import logging
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.core.config import settings
-from app.schemas.user import SignUpRequest
-from app.db import get_async_session
-from app.db.user_model import UserModel
+from app.routers.user import router as user_router
 
 app = FastAPI()
 
@@ -57,19 +52,7 @@ async def root():
     return {
         "status_code": 200,
         "detail": "ok",
-        "result": settings.POSTGRES_DB,
+        "result": "working",
     }
 
-
-@app.post("/add_user")
-async def add_user(
-    user: SignUpRequest, session: AsyncSession = Depends(get_async_session)
-):
-
-    new_user = UserModel(
-        email=user.email, username=user.username, hashed_password=user.password
-    )
-    session.add(new_user)
-    await session.commit()
-    await session.refresh(new_user)
-    return new_user
+app.include_router(user_router)

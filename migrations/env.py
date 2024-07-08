@@ -8,7 +8,7 @@ from app.core.config import settings
 
 from alembic import context
 from app.db import Base, metadata
-from app.db.user_model import UserModel
+from app.db.user_models import UserModel
 
 sys.path.append(os.path.join(sys.path[0], "app"))
 
@@ -17,11 +17,11 @@ sys.path.append(os.path.join(sys.path[0], "app"))
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_HOST", settings.POSTGRES_HOST)
-config.set_section_option(section, "DB_PORT", str(settings.POSTGRES_PORT))
-config.set_section_option(section, "DB_USER", settings.POSTGRES_USER)
-config.set_section_option(section, "DB_NAME", settings.POSTGRES_DB)
-config.set_section_option(section, "DB_PASS", settings.POSTGRES_PASSWORD)
+config.set_section_option(section, "POSTGRES_HOST", settings.POSTGRES_HOST)
+config.set_section_option(section, "POSTGRES_PORT", str(settings.POSTGRES_PORT))
+config.set_section_option(section, "POSTGRES_USER", settings.POSTGRES_USER)
+config.set_section_option(section, "POSTGRES_DB", settings.POSTGRES_DB)
+config.set_section_option(section, "POSTGRES_PASSWORD", settings.POSTGRES_PASSWORD)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

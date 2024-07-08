@@ -1,8 +1,4 @@
-import os
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -15,7 +11,7 @@ class Settings(BaseSettings):
     REDIS_PORT: int
 
     class Config:
-        env_file = os.path.expanduser("~/.env")
+        env_file = ".env"
 
     @property
     def database_url(self) -> str:
