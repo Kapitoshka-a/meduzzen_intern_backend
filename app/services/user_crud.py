@@ -27,6 +27,7 @@ class UserCRUD:
             lastname=user.lastname,
             email=user.email,
             hashed_password=hashed_password(user.password1),
+            avatar=user.avatar,
             city=user.city,
             phone=user.phone,
         )

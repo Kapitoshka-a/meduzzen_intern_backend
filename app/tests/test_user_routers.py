@@ -22,21 +22,22 @@ def test_add_user():
         "email": "fish@example.com",
         "firstname": "fog",
         "lastname": "wet",
+        "avatar": "test.png",
         "password1": "string123",
         "password2": "string123",
         "city": "Odes",
-        "phone": "09876541444"
+        "phone": "+380987654144"
     }
     response = client.post("/api/users/", json=user_data)
     assert response.status_code == 201
 
 
 def test_get_user():
-    response = client.get("/api/users/19")
+    response = client.get("/api/users/25")
     assert response.status_code == 200
-    assert response.json()["id"] == 19
+    assert response.json()["id"] == 25
 
-    response = client.get("/api/users/999")
+    response = client.get("/api/users/1")
     assert response.status_code == 404
 
 
@@ -46,8 +47,9 @@ async def test_update_user():
         "firstname": "test",
         "lastname": "test",
         "password": "secret_password",
+        "avatar": "TestImage.png",
         "city": "Odes",
-        "phone": "0001122344"
+        "phone": "+380987654145"
     }
     async with async_session_maker() as session:
         user_crud = UserCRUD(session)

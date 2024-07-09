@@ -12,6 +12,7 @@ class UserModel(Base):
     lastname: str = Column(String, nullable=False)
     city: str = Column(String, nullable=False)
     phone: str = Column(String, nullable=False)
+    avatar: str = Column(String, default="DefaultAvatar.png")
     hashed_password: str = Column(String(length=1024), nullable=False)
     created_at: datetime = Column(TIMESTAMP, default=datetime.utcnow)
     updated_at: datetime = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)

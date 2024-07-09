@@ -1,7 +1,7 @@
 from typing import List
-
 from pydantic import BaseModel, EmailStr, model_validator
 from datetime import datetime
+from pydantic_extra_types.phone_numbers import PhoneNumber
 
 
 class UserSchema(BaseModel):
@@ -10,6 +10,9 @@ class UserSchema(BaseModel):
     firstname: str
     lastname: str
     password: str
+    avatar: str
+    city: str
+    phone: PhoneNumber
     created_at: datetime
     updated_at: datetime
     is_active: bool
@@ -24,10 +27,11 @@ class SignInRequestSchema(BaseModel):
     email: EmailStr
     firstname: str
     lastname: str
+    avatar: str
     password1: str
     password2: str
     city: str
-    phone: str
+    phone: PhoneNumber
 
     @model_validator(mode="after")
     def passwords_match(self):
@@ -46,8 +50,9 @@ class UserUpdateRequestSchema(BaseModel):
     firstname: str
     lastname: str
     password: str
+    avatar: str
     city: str
-    phone: str
+    phone: PhoneNumber
 
     class Config:
         from_attributes = True
@@ -58,6 +63,9 @@ class UserDetailResponseSchema(BaseModel):
     email: EmailStr
     firstname: str
     lastname: str
+    avatar: str
+    city: str
+    phone: PhoneNumber
     created_at: datetime
     updated_at: datetime
     is_active: bool
