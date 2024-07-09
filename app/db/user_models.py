@@ -15,7 +15,9 @@ class UserModel(Base):
     avatar: str = Column(String, default="DefaultAvatar.png")
     hashed_password: str = Column(String(length=1024), nullable=False)
     created_at: datetime = Column(TIMESTAMP, default=datetime.utcnow)
-    updated_at: datetime = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at: datetime = Column(
+        TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
     is_active: bool = Column(Boolean, default=True, nullable=False)
     is_superuser: bool = Column(Boolean, default=False, nullable=False)
     is_verified: bool = Column(Boolean, default=False, nullable=False)

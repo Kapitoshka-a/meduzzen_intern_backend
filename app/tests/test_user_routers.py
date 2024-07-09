@@ -26,7 +26,7 @@ def test_add_user():
         "password1": "string123",
         "password2": "string123",
         "city": "Odes",
-        "phone": "+380987654144"
+        "phone": "+380987654144",
     }
     response = client.post("/api/users/", json=user_data)
     assert response.status_code == 201
@@ -49,7 +49,7 @@ async def test_update_user():
         "password": "secret_password",
         "avatar": "TestImage.png",
         "city": "Odes",
-        "phone": "+380987654145"
+        "phone": "+380987654145",
     }
     async with async_session_maker() as session:
         user_crud = UserCRUD(session)
