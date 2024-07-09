@@ -5,18 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
-import logging
 from app.routers.user_routers import router as user_router
 
 app = FastAPI()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    filename="app.log",
-    filemode="a",
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
 
 origins = ["http://localhost:3000", "http://localhost", "http://localhost:8000"]
 
