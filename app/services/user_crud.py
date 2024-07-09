@@ -21,7 +21,7 @@ class UserCRUD:
         if user.email:
             existing_user = await self.get_user_by_email(user.email)
             if existing_user:
-                raise HTTPException(status_code=409, detail="Email already registered")
+                raise HTTPException(status_code=400, detail="Email already registered")
         db_user = UserModel(
             firstname=user.firstname,
             lastname=user.lastname,

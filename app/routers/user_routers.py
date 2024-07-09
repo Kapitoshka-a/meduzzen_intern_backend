@@ -45,7 +45,7 @@ async def get_user(user_id: int, session: AsyncSession = Depends(get_async_sessi
 @router.put(
     "/{user_id}",
     response_model=UserDetailResponseSchema,
-    status_code=status.HTTP_202_ACCEPTED,
+    status_code=status.HTTP_200_OK,
 )
 async def update_user(
     user_id: int,

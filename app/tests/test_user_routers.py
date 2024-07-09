@@ -55,7 +55,7 @@ async def test_update_user():
         user_crud = UserCRUD(session)
         user = await user_crud.get_user_by_email("fish@example.com")
         response = client.put(f"/api/users/{user.id}", json=update_data)
-        assert response.status_code == 202
+        assert response.status_code == 200
         assert response.json()["firstname"] == "test"
 
         response = client.put("/api/users/1", json=update_data)
