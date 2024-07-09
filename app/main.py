@@ -6,7 +6,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 import logging
-from app.routers.user import router as user_router
+from app.routers.user_routers import router as user_router
 
 app = FastAPI()
 
@@ -54,5 +54,6 @@ async def root():
         "detail": "ok",
         "result": "working",
     }
+
 
 app.include_router(user_router)
