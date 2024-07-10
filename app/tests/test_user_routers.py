@@ -10,11 +10,11 @@ client = TestClient(app)
 def test_get_users():
     response = client.get("/api/users")
     assert response.status_code == 200
-    assert "users" in response.json()
+    assert "items" in response.json()
 
-    response = client.get("/api/users?skip=0&limit=2")
+    response = client.get("/api/users?offset=0&limit=2")
     assert response.status_code == 200
-    assert len(response.json()["users"]) == 2
+    assert response.json()["total"] == 2
 
 
 def test_add_user():

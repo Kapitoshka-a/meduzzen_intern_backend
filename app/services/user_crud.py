@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import HTTPException
+from fastapi_pagination import LimitOffsetPage, pagination_ctx
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.user_models import UserModel
@@ -9,8 +10,10 @@ from app.schemas.user_schemas import (
     UserDetailResponseSchema,
     UserBriefResponseSchema,
     UserUpdateRequestSchema,
+    UsersListResponseSchema,
 )
 from app.core.hashing import hashed_password
+from fastapi_pagination.ext.sqlalchemy import paginate
 
 
 class UserCRUD:
@@ -48,14 +51,16 @@ class UserCRUD:
         )
         return result.scalars().first()
 
-    async def get_all_users(
-        self, skip: int, limit: int
-    ) -> List[UserBriefResponseSchema]:
-        result = await self.db_session.execute(
-            select(UserModel).offset(skip).limit(limit)
+    async def get_all_users(self) -> LimitOffsetPage[UserBriefResponseSchema]:
+        query = select(UserModel).order_by(UserModel.created_at)
+        paginated_users = await paginate(self.db_session, query)
+        items = [UserBriefResponseSchema.model_validate(user) for user in paginated_users.items]
+        return LimitOffsetPage(
+            items=items,
+            total=paginated_users.total,
+            limit=paginated_users.limit,
+            offset=paginated_users.offset
         )
-        users = result.scalars().all()
-        return [UserBriefResponseSchema.from_orm(user) for user in users]
 
     async def update_user(
         self, user_id: int, user_update: UserUpdateRequestSchema

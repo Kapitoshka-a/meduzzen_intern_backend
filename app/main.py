@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_pagination import add_pagination
 from redis import asyncio as aioredis
 from app.routers.user_routers import router as user_router
 
@@ -49,3 +50,4 @@ async def root():
 
 
 app.include_router(user_router)
+add_pagination(app)

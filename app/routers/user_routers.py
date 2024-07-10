@@ -6,24 +6,28 @@ from app.schemas.user_schemas import *
 from app.services.user_crud import UserCRUD
 
 from app.utils.exception_handler import handle_exceptions
+from fastapi_pagination import LimitOffsetPage, add_pagination
+
 
 router = APIRouter(
     prefix="/api/users", tags=["Users"], dependencies=[Depends(handle_exceptions)]
 )
 
 
-@router.get("/", response_model=UsersListResponseSchema, status_code=status.HTTP_200_OK)
-async def get_users(
-    session: AsyncSession = Depends(get_async_session), skip: int = 0, limit: int = 16
-):
+@router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+    response_model=LimitOffsetPage[UserBriefResponseSchema]
+)
+async def get_users(session: AsyncSession = Depends(get_async_session)):
     user_crud = UserCRUD(session)
-    users = await user_crud.get_all_users(skip=skip, limit=limit)
-    return {"users": users}
+    users = await user_crud.get_all_users()
+    return users
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def add_user(
-    user: SignInRequestSchema, session: AsyncSession = Depends(get_async_session)
+        user: SignInRequestSchema, session: AsyncSession = Depends(get_async_session)
 ):
     user_crud = UserCRUD(session)
     return await user_crud.create_user(user)
@@ -48,9 +52,9 @@ async def get_user(user_id: int, session: AsyncSession = Depends(get_async_sessi
     status_code=status.HTTP_200_OK,
 )
 async def update_user(
-    user_id: int,
-    user_update: UserUpdateRequestSchema,
-    session: AsyncSession = Depends(get_async_session),
+        user_id: int,
+        user_update: UserUpdateRequestSchema,
+        session: AsyncSession = Depends(get_async_session),
 ):
     user_crud = UserCRUD(session)
     db_user = await user_crud.update_user(user_id, user_update)
