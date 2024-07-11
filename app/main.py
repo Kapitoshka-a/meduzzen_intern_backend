@@ -4,19 +4,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_pagination import add_pagination
 from redis import asyncio as aioredis
-import logging
-from app.routers.user import router as user_router
+from app.routers.user_routers import router as user_router
 
 app = FastAPI()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    filename="app.log",
-    filemode="a",
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
 
 origins = ["http://localhost:3000", "http://localhost", "http://localhost:8000"]
 
@@ -55,4 +48,6 @@ async def root():
         "result": "working",
     }
 
+
 app.include_router(user_router)
+add_pagination(app)
